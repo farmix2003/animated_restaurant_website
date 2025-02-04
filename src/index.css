@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+.box {
+  background: url("https://yastatic.net/naydex/yandex-search/nrAM9q561/652919RLtkQ4/zsTvPfaf1RYgOPvCIWJJ0F6QusHh15a7YnInE1TV2beKGejIvgbxKH7fHdQLYXxKWJhm6OPvFkJ-sPjg2lMlPY-wK0nnSmBCMf27QhEyaAWKoasEQZJHH0e3hna0FWn3rH9qmukVFo4JWPoTr5Bde_wYJk0jjtKye8U8Uf5lpq");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100vh;
+}
+.login-box {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
