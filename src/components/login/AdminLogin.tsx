@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { CgUser } from "react-icons/cg";
+import { useNavigate } from "react-router-dom";
 const AdminLogin = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [admins, setAdmins] = useState<
@@ -8,6 +9,7 @@ const AdminLogin = () => {
   >([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("/admin.json")
@@ -23,6 +25,7 @@ const AdminLogin = () => {
     );
     if (admin) {
       alert("Login successful! 🎉");
+      navigate("/admin/dashboard");
     } else {
       alert("Invalid credentials ❌");
     }
