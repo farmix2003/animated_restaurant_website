@@ -9,7 +9,7 @@ export default function Logo() {
     >
       <defs>
         <filter id="neonGlow" x="-50%" y="-50%" width="200%" height="200%">
-          <feFlood result="flood" flood-color="#00ffcc" flood-opacity="0.8" />
+          <feFlood result="flood" floodColor="#00ffcc" floodOpacity="0.8" />
           <feComposite in="flood" in2="SourceAlpha" operator="in" />
           <feGaussianBlur stdDeviation="4" />
           <feMerge>
@@ -21,9 +21,9 @@ export default function Logo() {
       <text
         x="10"
         y="70"
-        font-family="Arial, sans-serif"
-        font-size="100"
-        font-weight="bold"
+        fontFamily="Arial, sans-serif"
+        fontSize="100"
+        fontWeight="bold"
         fill="#00ffcc"
         filter="url(#neonGlow)"
       >

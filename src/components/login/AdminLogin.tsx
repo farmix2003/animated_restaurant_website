@@ -1,9 +1,32 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CgUser } from "react-icons/cg";
-
 const AdminLogin = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [admins, setAdmins] = useState<
+    { username: string; password: string }[]
+  >([]);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    fetch("../../../public/admin.json")
+      .then((res) => res.json())
+      .then((res) => setAdmins(res));
+  }, []);
+  console.log(admins);
+  const loginAdmin = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const admin = admins.find(
+      (admin) => admin.username === username && admin.password === password
+    );
+    if (admin) {
+      alert("Login successful! 🎉");
+    } else {
+      alert("Invalid credentials ❌");
+    }
+  };
 
   return (
     <div className="w-full max-w-sm mx-auto">
@@ -12,15 +35,13 @@ const AdminLogin = () => {
         onClick={() => setIsOpen(!isOpen)}
         animate={{
           flexDirection: isOpen ? "row" : "column",
-          alignItems: isOpen ? "center" : "center",
+          alignItems: "center",
         }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
         <h1 className="text-3xl text-white">Admin?</h1>
         <motion.div
-          animate={{
-            fontSize: isOpen ? "2rem" : "5rem",
-          }}
+          animate={{ fontSize: isOpen ? "2rem" : "5rem" }}
           transition={{ duration: 0.3 }}
         >
           <CgUser className="text-amber-500" />
@@ -33,14 +54,19 @@ const AdminLogin = () => {
         transition={{ duration: 0.3, ease: "easeInOut" }}
         className="overflow-hidden"
       >
-        <form className="flex flex-col space-y-5 p-5 bg-white/10 rounded-lg mt-3">
+        <form
+          onSubmit={loginAdmin}
+          className="flex flex-col space-y-5 p-5 bg-white/10 rounded-lg mt-3"
+        >
           <label htmlFor="username" className="text-white">
             Username
           </label>
           <input
             type="text"
             id="username"
-            className="p-2 rounded-lg outline-none border-b-2 text-white border-white"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="p-2 rounded-lg outline-none border-b-2 text-white border-white bg-transparent"
           />
           <label htmlFor="password" className="text-white">
             Password
@@ -48,7 +74,9 @@ const AdminLogin = () => {
           <input
             type="password"
             id="password"
-            className="p-2 rounded-lg outline-none  border-b-2 text-white border-white"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="p-2 rounded-lg outline-none border-b-2 text-white border-white bg-transparent"
           />
           <button
             type="submit"
