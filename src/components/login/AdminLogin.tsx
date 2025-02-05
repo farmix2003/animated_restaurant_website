@@ -10,7 +10,7 @@ const AdminLogin = () => {
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    fetch("../../../public/admin.json")
+    fetch("/admin.json")
       .then((res) => res.json())
       .then((res) => setAdmins(res));
   }, []);
