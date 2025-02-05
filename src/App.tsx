@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import Login from "./components/login/Login";
 import AdminDashboard from "./components/admin_dashboard/AdminDashboard";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 const App = () => {
   const [admins, setAdmins] = useState<
@@ -10,6 +11,19 @@ const App = () => {
   >([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [questions, setQuestions] = useState<{
+    [key: string]: {
+      id: number;
+      title: string;
+      questions: {
+        question: string;
+        options: string[];
+        correctAnswer: string;
+      }[];
+      createdBy: string;
+    }[];
+  }>({});
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,7 +31,7 @@ const App = () => {
       .then((res) => res.json())
       .then((res) => setAdmins(res));
   }, []);
-  console.log(admins);
+
   const loginAdmin = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -30,6 +44,14 @@ const App = () => {
       alert("Invalid credentials ❌");
     }
   };
+
+  useEffect(() => {
+    const getQuestionByCreator = async () => {
+      const questions = await axios.get("/questions.json");
+      setQuestions(questions.data);
+    };
+    getQuestionByCreator();
+  });
 
   return (
     <div className="overflow-x-hidden bg-[#03002e] box">
@@ -48,7 +70,10 @@ const App = () => {
           }
         />
         {/* <Route path="/login" element={<Login />} /> */}
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route
+          path="/admin/dashboard"
+          element={<AdminDashboard questions={questions} />}
+        />
       </Routes>
     </div>
   );
