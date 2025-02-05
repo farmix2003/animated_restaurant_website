@@ -1,35 +1,16 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CgUser } from "react-icons/cg";
-import { useNavigate } from "react-router-dom";
-const AdminLogin = () => {
+import { AdminLoginProps } from "./Login";
+
+const AdminLogin = ({
+  username,
+  password,
+  setUsername,
+  setPassword,
+  loginAdmin,
+}: AdminLoginProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [admins, setAdmins] = useState<
-    { username: string; password: string }[]
-  >([]);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    fetch("/admin.json")
-      .then((res) => res.json())
-      .then((res) => setAdmins(res));
-  }, []);
-  console.log(admins);
-  const loginAdmin = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const admin = admins.find(
-      (admin) => admin.username === username && admin.password === password
-    );
-    if (admin) {
-      alert("Login successful! 🎉");
-      navigate("/admin/dashboard");
-    } else {
-      alert("Invalid credentials ❌");
-    }
-  };
 
   return (
     <div className="w-full max-w-sm mx-auto">
