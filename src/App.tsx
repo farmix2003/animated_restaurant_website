@@ -72,7 +72,7 @@ const App = () => {
         {/* <Route path="/login" element={<Login />} /> */}
         <Route
           path="/admin/dashboard"
-          element={<AdminDashboard questions={questions} />}
+          element={<AdminDashboard questions={questions} username={username} />}
         />
       </Routes>
     </div>

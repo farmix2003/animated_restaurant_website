@@ -27,7 +27,7 @@ const QuizCollectionItems: React.FC<DashboardItemsProps> = ({
             </p>
             <p className="text-white">👤 Created by: {collection.createdBy}</p>
             <p
-              className="cursor-pointer text-md font-semibold text-amber-200 underline mt-1.5 "
+              className="cursor-pointer text-md font-semibold hover:text-amber-400 transition-colors text-amber-200 underline mt-1.5 "
               onClick={() => setSelectedCollection(collection)}
             >
               See Questions

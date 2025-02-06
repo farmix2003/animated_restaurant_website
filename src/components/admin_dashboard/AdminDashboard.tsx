@@ -24,27 +24,44 @@ export type QuestionsProps = {
       createdBy: string;
     }[];
   };
+  username: string;
 };
 
-const AdminDashboard: React.FC<QuestionsProps> = ({ questions }) => {
+const AdminDashboard: React.FC<QuestionsProps> = ({ questions, username }) => {
   const [selectedCollection, setSelectedCollection] =
     useState<QuizCollection | null>(null);
+  const [myCollections, setMyCollections] = useState<QuizCollection[]>([]);
+  const [showMyCollections, setShowMyCollections] = useState(false);
 
+  // Merge collections into a single array
   const mergedCollections: QuizCollection[] = Object.entries(questions).map(
-    ([title, quizzes]) => {
-      return {
-        title,
-        questions: quizzes.flatMap((quiz) => quiz.questions),
-        createdBy: quizzes[0]?.createdBy,
-      };
-    }
+    ([title, quizzes]) => ({
+      title,
+      questions: quizzes.flatMap((quiz) => quiz.questions),
+      createdBy: quizzes[0]?.createdBy,
+    })
   );
+
+  // Function to filter "My Collections"
+  const getMyCollections = () => {
+    setMyCollections(
+      mergedCollections.filter(
+        (collection) => collection.createdBy === username
+      )
+    );
+    setShowMyCollections(true); // Switch to "My Collections" view
+  };
 
   return (
     <div className="flex flex-col items-center">
       <h1 className="text-white text-4xl mt-10">
-        {selectedCollection ? selectedCollection.title : "All Quiz Collections"}
+        {selectedCollection
+          ? selectedCollection.title
+          : showMyCollections
+          ? "My Quiz Collections"
+          : "All Quiz Collections"}
       </h1>
+
       {selectedCollection ? (
         <Questions
           selectedCollection={selectedCollection}
@@ -52,9 +69,15 @@ const AdminDashboard: React.FC<QuestionsProps> = ({ questions }) => {
         />
       ) : (
         <>
-          <DashboardItems />
+          <DashboardItems
+            getMyCollections={getMyCollections}
+            showMyCollections={showMyCollections}
+            setShowMyCollections={setShowMyCollections}
+          />
           <QuizCollectionItems
-            mergedCollections={mergedCollections}
+            mergedCollections={
+              showMyCollections ? myCollections : mergedCollections
+            }
             setSelectedCollection={setSelectedCollection}
           />
         </>
