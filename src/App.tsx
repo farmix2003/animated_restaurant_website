@@ -1,9 +1,9 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Login from "./components/login/Login";
-import AdminDashboard from "./components/admin_dashboard/AdminDashboard";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import AdminDashboard from "./components/admin_dashboard/AdminDashboard";
 
 const App = () => {
   const [admins, setAdmins] = useState<

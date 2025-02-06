@@ -1,5 +1,7 @@
+import { useState } from "react";
 import DashboardItems from "./DashboardItems";
 import QuizCollectionItems from "./QuizCollectionItems";
+import Questions from "./Questions";
 
 type QuestionType = {
   question: string;
@@ -13,7 +15,7 @@ export type QuizCollection = {
   createdBy: string;
 };
 
-type QuestionsProps = {
+export type QuestionsProps = {
   questions: {
     [key: string]: {
       id: number;
@@ -24,7 +26,10 @@ type QuestionsProps = {
   };
 };
 
-const AdminDashboard = ({ questions }: QuestionsProps) => {
+const AdminDashboard: React.FC<QuestionsProps> = ({ questions }) => {
+  const [selectedCollection, setSelectedCollection] =
+    useState<QuizCollection | null>(null);
+
   const mergedCollections: QuizCollection[] = Object.entries(questions).map(
     ([title, quizzes]) => {
       return {
@@ -37,9 +42,23 @@ const AdminDashboard = ({ questions }: QuestionsProps) => {
 
   return (
     <div className="flex flex-col items-center">
-      <h1 className="text-white text-4xl mt-10">All Quiz Collections</h1>
-      <DashboardItems />
-      <QuizCollectionItems mergedCollections={mergedCollections} />
+      <h1 className="text-white text-4xl mt-10">
+        {selectedCollection ? selectedCollection.title : "All Quiz Collections"}
+      </h1>
+      {selectedCollection ? (
+        <Questions
+          selectedCollection={selectedCollection}
+          setSelectedCollection={setSelectedCollection}
+        />
+      ) : (
+        <>
+          <DashboardItems />
+          <QuizCollectionItems
+            mergedCollections={mergedCollections}
+            setSelectedCollection={setSelectedCollection}
+          />
+        </>
+      )}
     </div>
   );
 };

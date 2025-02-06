@@ -3,10 +3,14 @@ import { QuizCollection } from "./AdminDashboard";
 
 type DashboardItemsProps = {
   mergedCollections: QuizCollection[];
+  setSelectedCollection: React.Dispatch<
+    React.SetStateAction<QuizCollection | null>
+  >;
 };
 
 const QuizCollectionItems: React.FC<DashboardItemsProps> = ({
   mergedCollections,
+  setSelectedCollection,
 }) => {
   return (
     <>
@@ -22,6 +26,12 @@ const QuizCollectionItems: React.FC<DashboardItemsProps> = ({
               📝 {collection.questions.length} questions
             </p>
             <p className="text-white">👤 Created by: {collection.createdBy}</p>
+            <p
+              className="cursor-pointer text-md font-semibold text-amber-200 underline mt-1.5 "
+              onClick={() => setSelectedCollection(collection)}
+            >
+              See Questions
+            </p>
           </div>
         ))
       )}
